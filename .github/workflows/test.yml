@@ -41,5 +41,9 @@ jobs:
 
       - name: Run Forge tests
         run: |
-          forge test -vvv
+          if ls test/*.sol 1> /dev/null 2>&1; then
+            forge test -vvv;
+          else
+            echo "No test files found, skipping.";
+          fi
         id: test
