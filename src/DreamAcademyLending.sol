@@ -42,8 +42,9 @@ contract DreamAcademyLending {
         uint256 priceOfBorrowing = priceOracle.getPrice(_token);
         uint256 priceOfReserveToken = priceOracle.getPrice(address(reserveToken));
         uint256 priceOfEther = priceOracle.getPrice(address(0x0));
-        
-        uint256 valueOfCollateral = (collateral_ether[msg.sender] * priceOfEther) + (collateral_token[msg.sender] * priceOfReserveToken);
+
+        uint256 valueOfCollateral =
+            (collateral_ether[msg.sender] * priceOfEther) + (collateral_token[msg.sender] * priceOfReserveToken);
         uint256 valueOfBorrowing = priceOfBorrowing * _amount;
         uint256 valueOfCurrentDebt = priceOfReserveToken * debt_token[msg.sender];
 
