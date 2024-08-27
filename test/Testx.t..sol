@@ -220,270 +220,270 @@ contract Testx is Test {
         vm.stopPrank();
     }
 
-    // function testBorrowWithSufficientCollateralAfterRepaymentSucceeds() external {
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+    function testBorrowWithSufficientCollateralAfterRepaymentSucceeds() external {
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether);
+        dreamOracle.setPrice(address(0x0), 4000 ether);
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         assertTrue(usdc.balanceOf(user2) == 2000 ether);
+            assertTrue(usdc.balanceOf(user2) == 2000 ether);
 
-    //         usdc.approve(address(lending), type(uint256).max);
+            usdc.approve(address(lending), type(uint256).max);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.repay.selector, address(usdc), 1000 ether)
-    //         );
-    //         console.log("isSuccess1 ? : ", success);
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.repay.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         console.log("isSuccess2 ? : ", success);
-    //         assertTrue(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testBorrowWithInSufficientCollateralAfterRepaymentFails() external {
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+    function testBorrowWithInSufficientCollateralAfterRepaymentFails() external {
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether);
+        dreamOracle.setPrice(address(0x0), 4000 ether);
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         assertTrue(usdc.balanceOf(user2) == 2000 ether);
+            assertTrue(usdc.balanceOf(user2) == 2000 ether);
 
-    //         usdc.approve(address(lending), type(uint256).max);
+            usdc.approve(address(lending), type(uint256).max);
 
-    //         vm.roll(block.number + 1);
+            vm.roll(block.number + 1);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.repay.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.repay.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertFalse(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            console.log("borrow success ? : ", success);
+            assertFalse(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 999 ether)
-    //         );
-    //         assertTrue(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 999 ether)
+            );
+            assertTrue(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawInsufficientBalanceFails() external {
-    //     vm.deal(user2, 100000000 ether);
-    //     vm.startPrank(user2);
-    //     {
-    //         lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
+    function testWithdrawInsufficientBalanceFails() external {
+        vm.deal(user2, 100000000 ether);
+        vm.startPrank(user2);
+        {
+            lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
 
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000001 ether)
-    //         );
-    //         assertFalse(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000001 ether)
+            );
+            assertFalse(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawUnlockedBalanceSucceeds() external {
-    //     vm.deal(user2, 100000000 ether);
-    //     vm.startPrank(user2);
-    //     {
-    //         lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
+    function testWithdrawUnlockedBalanceSucceeds() external {
+        vm.deal(user2, 100000000 ether);
+        vm.startPrank(user2);
+        {
+            lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
 
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000001 ether - 1 ether)
-    //         );
-    //         assertTrue(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000001 ether - 1 ether)
+            );
+            assertTrue(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawMultipleUnlockedBalanceSucceeds() external {
-    //     vm.deal(user2, 100000000 ether);
-    //     vm.startPrank(user2);
-    //     {
-    //         lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
+    function testWithdrawMultipleUnlockedBalanceSucceeds() external {
+        vm.deal(user2, 100000000 ether);
+        vm.startPrank(user2);
+        {
+            lending.deposit{value: 100000000 ether}(address(0x00), 100000000 ether);
 
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
-    //         );
-    //         assertTrue(success);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
-    //         );
-    //         assertTrue(success);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
-    //         );
-    //         assertTrue(success);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
-    //         );
-    //         assertTrue(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
+            );
+            assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
+            );
+            assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
+            );
+            assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 100000000 ether / 4)
+            );
+            assertTrue(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawLockedCollateralFails() external {
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+    function testWithdrawLockedCollateralFails() external {
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether);
+        dreamOracle.setPrice(address(0x0), 4000 ether);
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether)
-    //         );
-    //         assertFalse(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether)
+            );
+            assertFalse(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawLockedCollateralAfterBorrowSucceeds() external {
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+    function testWithdrawLockedCollateralAfterBorrowSucceeds() external {
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether); // 4000 usdc
+        dreamOracle.setPrice(address(0x0), 4000 ether); // 4000 usdc
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         // 2000 / (4000 - 1333) * 100 = 74.xxxx
-    //         // LT = 75%
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether * 1333 / 4000)
-    //         );
-    //         assertTrue(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            // 2000 / (4000 - 1333) * 100 = 74.xxxx
+            // LT = 75%
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether * 1333 / 4000)
+            );
+            assertEq(success, true);
+            // assertTrue(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawLockedCollateralAfterInterestAccuredFails() external {
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+    function testWithdrawLockedCollateralAfterInterestAccuredFails() external {
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether); // 4000 usdc
+        dreamOracle.setPrice(address(0x0), 4000 ether); // 4000 usdc
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (bool success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (bool success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         // 2000 / (4000 - 1333) * 100 = 74.xxxx
-    //         // LT = 75%
-    //         vm.roll(block.number + 1000);
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether * 1333 / 4000)
-    //         );
-    //         assertFalse(success);
-    //     }
-    //     vm.stopPrank();
-    // }
+            // 2000 / (4000 - 1333) * 100 = 74.xxxx
+            // LT = 75%
+            vm.roll(block.number + 1000);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether * 1333 / 4000)
+            );
+            assertFalse(success);
+        }
+        vm.stopPrank();
+    }
 
-    // function testWithdrawYieldSucceeds() external {
-    //     usdc.transfer(user3, 30000000 ether);
-    //     vm.startPrank(user3);
-    //     usdc.approve(address(lending), type(uint256).max);
-    //     lending.deposit(address(usdc), 30000000 ether);
-    //     vm.stopPrank();
+    function testWithdrawYieldSucceeds() external {
+        usdc.transfer(user3, 30000000 ether);
+        vm.startPrank(user3);
+        usdc.approve(address(lending), type(uint256).max);
+        lending.deposit(address(usdc), 30000000 ether);
+        vm.stopPrank();
 
-    //     supplyUSDCDepositUser1();
-    //     supplySmallEtherDepositUser2();
+        supplyUSDCDepositUser1();
+        supplySmallEtherDepositUser2();
 
-    //     dreamOracle.setPrice(address(0x0), 4000 ether);
+        dreamOracle.setPrice(address(0x0), 4000 ether);
 
-    //     bool success;
+        bool success;
 
-    //     vm.startPrank(user2);
-    //     {
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+        vm.startPrank(user2);
+        {
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
-    //         );
-    //         assertTrue(success);
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.borrow.selector, address(usdc), 1000 ether)
+            );
+            assertTrue(success);
 
-    //         (success,) = address(lending).call(
-    //             abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether)
-    //         );
-    //         assertFalse(success);
-    //     }
-    //     vm.stopPrank();
+            (success,) = address(lending).call(
+                abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(0x0), 1 ether)
+            );
+            assertFalse(success);
+        }
+        vm.stopPrank();
 
-    //     vm.roll(block.number + (86400 * 1000 / 12));
-    //     vm.prank(user3);
-    //     assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 30000792);
+        vm.roll(block.number + (86400 * 1000 / 12));
+        vm.prank(user3);
+        assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 30000792);
 
-    //     vm.roll(block.number + (86400 * 500 / 12));
-    //     vm.prank(user3);
-    //     assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 30001605);
+        vm.roll(block.number + (86400 * 500 / 12));
+        vm.prank(user3);
+        assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 30001605);
 
-    //     vm.prank(user3);
-    //     (success,) = address(lending).call(
-    //         abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(usdc), 30001605 ether)
-    //     );
-    //     assertTrue(success);
-    //     assertTrue(usdc.balanceOf(user3) == 30001605 ether);
+        vm.prank(user3);
+        (success,) = address(lending).call(
+            abi.encodeWithSelector(DreamAcademyLending.withdraw.selector, address(usdc), 30001605 ether)
+        );
+        assertTrue(success);
+        assertTrue(usdc.balanceOf(user3) == 30001605 ether);
 
-    //     assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 0);
-    // }
+        assertTrue(lending.getAccruedSupplyAmount(address(usdc)) / 1e18 == 0);
+    }
 
     // function testExchangeRateChangeAfterUserBorrows() external {
     //     usdc.transfer(user3, 30000000 ether);
